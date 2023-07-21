@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const ContestsTable = ({ contests }) => {
   const convert = (dateTime) => {
@@ -12,8 +12,8 @@ const ContestsTable = ({ contests }) => {
   return (
     <div className="overflow-x-auto">
       <table className="table w-full">
-        <thead>
-          <tr>
+        <thead >
+          <tr style={{fontSize:'large',fontWeight:'bold'}} className="bg-base-300 rounded-box">
             <th></th>
             <td>Past Contest</td>
             <td>Started Time</td>
@@ -25,25 +25,25 @@ const ContestsTable = ({ contests }) => {
           {contests.map((contest, i) => (
             <tr
               key={contest._id}
-              className={contest._id.startsWith("Bi") ? "active" : undefined}
+              className={contest._id.startsWith("bi") ? "h-20 bg-base-300 rounded-box" : undefined}
             >
               <th>{i + 1}</th>
-              <td>{contest.title}</td>
-              <td className="hidden md:table-cell">
+              <td style={{fontFamily:'serif',fontSize:'large'}}>{contest.title}</td>
+              <td style={{fontFamily:'serif'}}>
                 {convert(contest.startTime)}
               </td>
               <td>
-                <Link
-                  className="link link-primary"
+                <NavLink
+                  className="edit" style={{padding:'0.1em',margin:"0.1em"}}
                   to={`/contest/${contest._id}`}
                 >
                   Rank List
-                </Link>
+                </NavLink>
               </td>
               <td>
-                <div className="badge badge-accent">
+                <div className="badge badge-accent" >
                   <a
-                    className="link"
+                    className="edit" style={{padding:'0.1em',margin:"0.1em"}}
                     href={`https://leetcode.com/contest/${contest._id}/ranking`}
                     target="_blank"
                     rel="noreferrer noopener"

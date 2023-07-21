@@ -4,18 +4,27 @@ import api from "./Axios";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
+import {Moon,SunDim} from "phosphor-react"
 import ContestsTable from "./contest/ContestsTable";
 import Registration from "./Registration";
 import ContestRecords from "./contest/ContestRecords";
-
+//import Navbar from "./components/Navbar";
 function App() {
   // const initializeDataTheme = () =>
-  //   JSON.parse(localStorage.getItem("dataTheme")) ?? "light";
-  // const [dataTheme, setDataTheme] = useState(initializeDataTheme());
+  // JSON.parse(localStorage.getItem("dataTheme")) ?? "light";
+
+  const [dataTheme, setDataTheme] = useState("light");
   // useEffect(() => {
   //   localStorage.setItem("dataTheme", JSON.stringify(dataTheme));
   // }, [dataTheme]);
-
+  
+  const setTheme = () =>{
+  if(dataTheme==="light")  
+  setDataTheme("dark");
+  else
+  setDataTheme("light");
+  }
+  
   const [contests, setContests] = useState([]);
   const getContests = async () => {
     try {
@@ -39,34 +48,27 @@ function App() {
     getContests();
   }, []);
 
-  // useEffect(() => {
-  //   document.title = "Home";
-  // }, []);
-
   return (
-    <div data-theme="cyberpunk">
+    <div data-theme={dataTheme} style={{minHeight:'100vh'}}>
       <BrowserRouter>
-        {/* <Navbar dataTheme={dataTheme} setDataTheme={setDataTheme} /> */}
         <div className="container mx-auto" style={{ paddingTop: "0.5em" }}>
           <div className="grid h-20 card bg-base-300 rounded-box place-items-center">
             <NavLink
               to="/register"
-              className="btn m-1"
-              style={{ position: "absolute", right: "5em" }}
+              className="btn demo"
+              style={{ position: "absolute", right: "3em",padding:'0.2em',borderRadius: '12px',overflow: 'hidden' }}
             >
               <span>Register</span>
             </NavLink>
-            <label
-              tabIndex={0}
-              className="btn m-1"
-              style={{ position: "absolute", right: "0.2em" }}
-            >
-              <span className="hidden md:flex">Theme</span>
-            </label>
+           
+        <button  className="btn" style={{ position: "absolute", right: "0.2em",padding:'0.2em',borderRadius: '12px',overflow: 'hidden' }} onClick={()=>setTheme()}>
+        {dataTheme==="light"? <Moon size={24}/> : <SunDim size={24}/> }
+        </button >
+        
             <NavLink
               to="/"
-              className="btn m-1"
-              style={{ position: "absolute", left: "0.2em" }}
+              className="btn"
+              style={{ position: "absolute", left: "0.2em",padding:'0.2em',borderRadius: '12px',overflow: 'hidden' }}
             >
               <span>Home</span>
               <FontAwesomeIcon
@@ -80,10 +82,10 @@ function App() {
               className="grey-text text-lighten-3"
               target="_blank"
               rel="noreferrer noopener"
-              href="https://github.com/baoliay2008/lccn_predictor"
+              href="https://github.com/princekumar01/Leetcode_Rank_List"
             >
               <img
-                src="https://img.shields.io/github/stars/baoliay2008/lccn_predictor?style=social"
+                src="https://img.shields.io/github/stars/princekumar01/Leetcode_Rank_List?style=social"
                 alt="Stars"
               />
             </a>
@@ -95,12 +97,12 @@ function App() {
             <Route path="/contest/:_id" element={<ContestRecords />} />
           </Routes>
         </div>
-        <div>
+        <div >
           <br></br>
         </div>
       </BrowserRouter>
     </div>
   );
 }
-
+ 
 export default App;

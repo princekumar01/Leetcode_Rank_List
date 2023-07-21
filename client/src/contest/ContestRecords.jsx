@@ -13,7 +13,7 @@ const ContestRecordsTable = ({contest}) => {
     <div className="overflow-x-auto" >
       <table className="table table-compact w-full">
         <thead>
-          <tr>
+          <tr className="bg-base-300 rounded-box" style={{fontSize:'larger',fontWeight:'bold',fontFamily:'serif'}}>
             <td>Rank</td>
             <td>Name</td>
             <td>Username</td>
@@ -23,15 +23,15 @@ const ContestRecordsTable = ({contest}) => {
             <td>Year</td>
           </tr>
         </thead>
-        <tbody>
+        <tbody style={{fontFamily:'serif'}}>
           {contest.map((record, i) => (
-            <tr key={i} className="hover">
-              <td>#{i + 1}</td>
-              <td >{record.name}</td>
+            <tr key={i} className={i%2===1?"bg-base-300 rounded-box":undefined}>
+              <td style={{fontWeight:'bold'}}>#{i + 1}</td>
+              <td style={{fontFamily:'monospace' ,fontSize:'large'}} >{record.name}</td>
               <td>
                 {
                   <a
-                    className="link link-accent link-hover"
+                    className="edit" style={{fontFamily:'Inter'}}
                     href={`https://leetcode.com/${record._id}`}
                     target="_blank"
                     rel="noreferrer noopener"
@@ -40,10 +40,9 @@ const ContestRecordsTable = ({contest}) => {
                   </a>
                 }
               </td>
-
-              <td >{record.score}</td>
-              <td>{new Date(record.finish_time*1000).toLocaleTimeString()}</td>
-              <td>{record.rank}</td>
+              <td style={{paddingLeft:'1em'}}>{record.score}</td>
+              <td style={{paddingLeft:'1.5em'}}>{new Date(record.finish_time*1000).toLocaleTimeString()}</td>
+              <td style={{paddingLeft:'2.0em'}}>{record.rank}</td>
               <td>{record.year}</td>
             </tr>
           ))}
@@ -83,7 +82,7 @@ const RecordsSearch = ({revText, setContest}) => {
 
   return (
     <form onSubmit={onSubmitHandler}>
-      <div className="container mx-auto text-center">
+      <div className="container mx-auto text-center bg-base-300 rounded-box">
         <div className="form-group"> 
         <label style={{
               marginLeft: "0.5em",
@@ -177,11 +176,11 @@ const ContestRecords = () => {
   //console.log('check',revText.current);
   return (
     <>
-      <h1 className="text-center">{_id.split("-").join(" ")}</h1>
+      <div className="text-center" style={{fontWeight:'bold',fontSize:'large'}}>{_id.split("-").join(" ")}</div>
       <div>
       <RecordsSearch revText={revText} setContest={setContest} />
       <br></br>
-      <ContestRecordsTable contest={contest}/>
+      <ContestRecordsTable  contest={contest}/>
       </div>
     </>
   );

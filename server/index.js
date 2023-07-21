@@ -6,7 +6,6 @@ const cors = require('cors');
 const server = express();
 const router = require('./routes/index');
 const cron = require('node-cron');
-const fs = require('fs');
 const {fetchContestsMetaData,fetchContestRankings} = require("./controller/rankings");
 const model = require('./models/contest')
 const Contest = model.Contest;
