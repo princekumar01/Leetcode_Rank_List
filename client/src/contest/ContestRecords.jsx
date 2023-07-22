@@ -1,19 +1,23 @@
-import { useState, useEffect ,useRef} from "react";
-import { useParams} from "react-router-dom";
-import '../App.css';
+import { useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
+import "../App.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faUser,
-  faSearch,
-} from "@fortawesome/free-solid-svg-icons";
+import { faUser, faSearch } from "@fortawesome/free-solid-svg-icons";
 import api from "../Axios";
-const ContestRecordsTable = ({contest}) => {
+const ContestRecordsTable = ({ contest }) => {
   return (
-    <div className="overflow-x-auto" >
+    <div className="overflow-x-auto">
       <table className="table table-compact w-full">
         <thead>
-          <tr className="bg-base-300 rounded-box" style={{fontSize:'larger',fontWeight:'bold',fontFamily:'serif'}}>
+          <tr
+            className="bg-base-300 rounded-box"
+            style={{
+              fontSize: "larger",
+              fontWeight: "bold",
+              fontFamily: "serif",
+            }}
+          >
             <td>Rank</td>
             <td>Name</td>
             <td>Username</td>
@@ -23,15 +27,21 @@ const ContestRecordsTable = ({contest}) => {
             <td>Year</td>
           </tr>
         </thead>
-        <tbody style={{fontFamily:'serif'}}>
+        <tbody style={{ fontFamily: "serif" }}>
           {contest.map((record, i) => (
-            <tr key={i} className={i%2===1?"bg-base-300 rounded-box":undefined}>
-              <td style={{fontWeight:'bold'}}>#{i + 1}</td>
-              <td style={{fontFamily:'monospace' ,fontSize:'large'}} >{record.name}</td>
+            <tr
+              key={i}
+              className={i % 2 === 1 ? "bg-base-300 rounded-box" : undefined}
+            >
+              <td style={{ fontWeight: "bold" }}>#{i + 1}</td>
+              <td style={{ fontFamily: "monospace", fontSize: "large" }}>
+                {record.name}
+              </td>
               <td>
                 {
                   <a
-                    className="edit" style={{fontFamily:'Inter'}}
+                    className="edit"
+                    style={{ fontFamily: "Inter" }}
                     href={`https://leetcode.com/${record._id}`}
                     target="_blank"
                     rel="noreferrer noopener"
@@ -40,9 +50,11 @@ const ContestRecordsTable = ({contest}) => {
                   </a>
                 }
               </td>
-              <td style={{paddingLeft:'1em'}}>{record.score}</td>
-              <td style={{paddingLeft:'1.5em'}}>{new Date(record.finish_time*1000).toLocaleTimeString()}</td>
-              <td style={{paddingLeft:'2.0em'}}>{record.rank}</td>
+              <td style={{ paddingLeft: "1em" }}>{record.score}</td>
+              <td style={{ paddingLeft: "1.5em" }}>
+                {new Date(record.finish_time * 1000).toLocaleTimeString()}
+              </td>
+              <td style={{ paddingLeft: "2.0em" }}>{record.rank}</td>
               <td>{record.year}</td>
             </tr>
           ))}
@@ -52,8 +64,7 @@ const ContestRecordsTable = ({contest}) => {
   );
 };
 
-
-const RecordsSearch = ({revText, setContest}) => {
+const RecordsSearch = ({ revText, setContest }) => {
   const [searchData, setSearchData] = useState({
     year: "All",
     gender: "All",
@@ -83,13 +94,15 @@ const RecordsSearch = ({revText, setContest}) => {
   return (
     <form onSubmit={onSubmitHandler}>
       <div className="container mx-auto text-center bg-base-300 rounded-box">
-        <div className="form-group"> 
-        <label style={{
+        <div className="form-group">
+          <label
+            style={{
               marginLeft: "0.5em",
               marginRight: "2em",
-            }}>
-          <FontAwesomeIcon icon={faUser} size="lg" />
-        </label>
+            }}
+          >
+            <FontAwesomeIcon icon={faUser} size="lg" />
+          </label>
           <label htmlFor="year" className="form-label">
             Year
           </label>
@@ -127,32 +140,30 @@ const RecordsSearch = ({revText, setContest}) => {
             <option value="Male">Male</option>
             <option value="All">All</option>
           </select>
-          
-        <button className="btn" type="submit">
-          <FontAwesomeIcon icon={faSearch} size="lg" />
-        </button>
+
+          <button className="btn" type="submit">
+            <FontAwesomeIcon icon={faSearch} size="lg" />
+          </button>
         </div>
       </div>
     </form>
   );
 };
 
-
 const ContestRecords = () => {
-  
   const { _id } = useParams();
-  
+
   console.log(_id);
   const revText = useRef();
-  
+
   const [contest, setContest] = useState([]);
   const getContestData = async (_id) => {
     try {
       const response = await api.get(`/api/v1/getcontestdata/${_id}`);
       const singleContest = response.data;
       //console.log(...singleContest);
-      revText.current=[...singleContest];
-      
+      revText.current = [...singleContest];
+
       setContest([...singleContest]);
     } catch (error) {
       return (
@@ -176,11 +187,16 @@ const ContestRecords = () => {
   //console.log('check',revText.current);
   return (
     <>
-      <div className="text-center" style={{fontWeight:'bold',fontSize:'large'}}>{_id.split("-").join(" ")}</div>
+      <div
+        className="text-center"
+        style={{ fontWeight: "bold", fontSize: "large" }}
+      >
+        {_id.split("-").join(" ")}
+      </div>
       <div>
-      <RecordsSearch revText={revText} setContest={setContest} />
-      <br></br>
-      <ContestRecordsTable  contest={contest}/>
+        <RecordsSearch revText={revText} setContest={setContest} />
+        <br></br>
+        <ContestRecordsTable contest={contest} />
       </div>
     </>
   );

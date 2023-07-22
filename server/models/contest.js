@@ -19,4 +19,4 @@ const ContestSchema = new Schema({
     rankings: [rankingSchema],
 });
 
-exports.Contest = mongoose.model("Contest", ContestSchema);
+exports.Contest = mongoose.model("Contest", ContestSchema); 

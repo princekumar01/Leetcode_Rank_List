@@ -1,52 +1,137 @@
-require('dotenv').config()
-const express = require('express');
-const morgan = require('morgan');
-const mongoose = require('mongoose');
-const cors = require('cors');
+require("dotenv").config();
+const express = require("express");
+const morgan = require("morgan");
+const mongoose = require("mongoose");
+const cors = require("cors");
 const server = express();
-const router = require('./routes/index');
-const cron = require('node-cron');
-const {fetchContestsMetaData,fetchContestRankings} = require("./controller/rankings");
-const model = require('./models/contest')
+const router = require("./routes/index");
+const cron = require("node-cron");
+const {
+  fetchContestsMetaData,
+  fetchContestRankings,
+} = require("./controller/rankings");
+const model = require("./models/contest");
 const Contest = model.Contest;
- 
+
 //db connection
-main().catch(err => console.log(err));
+main().catch((err) => console.log(err));
 
 async function main() {
-  await mongoose.connect(process.env.MONGO_URL);
-  console.log('database connected')
+  await mongoose.connect(process.env.MONGO_URL, { useUnifiedTopology: true });
+  console.log("database connected");
 }
 //Schema
 
 server.use(cors());
 server.use(express.json());
 server.use(express.urlencoded());
-server.use(morgan('default'));
-server.use('/api/v1/',router.router);
-
-//server.use('/users',auth,userRouter.router);
+//server.use(morgan('default'));
+server.use("/api/v1/", router.router);
 
 server.listen(8080, () => {
-  console.log('server started');
+  console.log("server started");
 });
 
-const fetchContest = async function () {
-const contests = await Contest.find({  },{ rankings: 0});
-console.log('Contest data fetched from database')
-return contests;  
+function isDateWithinLastSevenDays(date) {
+  const today = new Date();
+  const sevenDaysAgo = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+  return date > sevenDaysAgo;
 }
 
-// Schedule myFunction to run at 10:00 PM on Saturday in IST
-cron.schedule('40 11 * * 3', async() => {
-fetchContestsMetaData(); 
-console.log('continue....');
-const contests=fetchContest();
-//const contests = await Contest.find({  },{ rankings: 0});
-for(let i=0;i<1;i++){
-console.log(contests[i]._id);
-fetchContestRankings(contests[i]._id);
-}
-}, {
-  timezone: 'Asia/Kolkata' // Set timezone to India Standard Time
-});
+cron.schedule(
+  "55 21 * * 6",
+  () => {
+    fetchContestsMetaData();
+  },
+  {
+    timezone: "Asia/Kolkata", // Set timezone to India Standard Time
+  }
+);
+
+cron.schedule(
+  "55 9 * * 0",
+  () => {
+    fetchContestsMetaData();
+  },
+  {
+    timezone: "Asia/Kolkata", // Set timezone to India Standard Time
+  }
+);
+
+cron.schedule(
+  "25 5 * * 1",
+  () => {
+    fetchContestsMetaData();
+  },
+  {
+    timezone: "Asia/Kolkata", // Set timezone to India Standard Time
+  }
+);
+
+cron.schedule(
+  "0 22 * * 6",
+  async () => {
+    const contests = await Contest.find({}, { rankings: 0 });
+    for (let i = 0; i < contests.length; i++) {
+      const date = new Date(contests[i].startTime);
+      if(isDateWithinLastSevenDays(date)){
+        //console.log(contests[i]._id);
+        fetchContestRankings(contests[i]._id);
+      }
+      }
+  },
+  {
+    timezone: "Asia/Kolkata", // Set timezone to India Standard Time
+  }
+);
+
+cron.schedule(
+  "0 10 * * 0",
+  async () => {
+    const contests = await Contest.find({}, { rankings: 0 });
+    for (let i = 0; i < contests.length; i++) {
+      const date = new Date(contests[i].startTime);
+      if(isDateWithinLastSevenDays(date)){
+        //console.log(contests[i]._id);
+        fetchContestRankings(contests[i]._id);
+      }
+      }
+  },
+  {
+    timezone: "Asia/Kolkata", // Set timezone to India Standard Time
+  }
+);
+
+cron.schedule(
+  "30 5 * * 1",
+  async () => {
+    const contests = await Contest.find({}, { rankings: 0 });
+    for (let i = 0; i < contests.length; i++) {
+      const date = new Date(contests[i].startTime);
+      if(isDateWithinLastSevenDays(date)){
+        //console.log(contests[i]._id);
+        fetchContestRankings(contests[i]._id);
+      }
+      }
+  },
+  {
+    timezone: "Asia/Kolkata", // Set timezone to India Standard Time
+  }
+);
+
+cron.schedule(
+  "30 5 * * 5",
+  async () => {
+    const contests = await Contest.find({}, { rankings: 0 });
+    for (let i = 0; i < contests.length; i++) {
+      const date = new Date(contests[i].startTime);
+      if(isDateWithinLastSevenDays(date)){
+        //console.log(contests[i]._id);
+        fetchContestRankings(contests[i]._id);
+      }
+      }
+  },
+  {
+    timezone: "Asia/Kolkata", // Set timezone to India Standard Time
+  }
+);

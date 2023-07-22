@@ -20,7 +20,7 @@ api.interceptors.response.use(
   (error) => {
     const message = error.response?.data?.message || error.message;
     console.log(message,error.response.status)
-    error.response.status===400?alert('Please enter correct Email/Password'):alert('Please Register/Login');
+    error.response.status===400?alert('Already Registered!'):console.log(error);
     return Promise.reject(error);
   }
 );

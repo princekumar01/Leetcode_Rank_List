@@ -40,7 +40,7 @@
 
  .App1 {
   /* margin: 5%; */
-  padding: 5% 400px; 
+  /* padding: 5% 400px;  */
   font-size: large;
   text-align: center; 
 } 
@@ -52,8 +52,9 @@
 }
 .form-control {
   display: block;
-  width: 100%;
+  /* width: 100%; */
   padding: 0.375rem 0.75rem;
+  margin-left: 42%;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
@@ -74,7 +75,8 @@
 
 .form-select {
   display: block;
-  width: 100%;
+  /* width: 100%; */
+  margin-left: 46%;
   padding: 0.375rem 2.25rem 0.375rem 0.75rem;
   -moz-padding-start: calc(0.75rem - 3px);
   font-size: 1rem;
