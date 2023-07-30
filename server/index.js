@@ -1,10 +1,11 @@
 require("dotenv").config();
+const path = require('path');
 const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const server = express();
-const router = require("./routes/index");
+const router = require("./routes/route");
 const cron = require("node-cron");
 const {
   fetchContestsMetaData,
@@ -20,14 +21,16 @@ async function main() {
   await mongoose.connect(process.env.MONGO_URL, { useUnifiedTopology: true });
   console.log("database connected");
 }
-//Schema
-
+//Schema 
+ 
 server.use(cors());
 server.use(express.json());
 server.use(express.urlencoded());
-//server.use(morgan('default'));
+server.use(morgan('default'));
 server.use("/api/v1/", router.router);
-
+// server.use('*',(req,res)=>{
+//   res.sendFile(path.resolve(__dirname,'build','index.html'))
+// })
 server.listen(8080, () => {
   console.log("server started");
 });
@@ -37,7 +40,7 @@ function isDateWithinLastSevenDays(date) {
   const sevenDaysAgo = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
   return date > sevenDaysAgo;
 }
-
+ 
 cron.schedule(
   "55 21 * * 6",
   () => {

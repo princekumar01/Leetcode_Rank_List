@@ -6,6 +6,7 @@ const Contest = model.Contest;
 exports.getAllContest = async (req, res) => {
   const contests = await Contest.find({}, { rankings: 0, lastUpdated: 0 });
   //console.log(contests);
+  contests.sort((b, a) => a.startTime - b.startTime);
   res.json(contests);
 };
 

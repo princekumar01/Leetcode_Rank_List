@@ -1,18 +1,15 @@
+//import dotenv from 'dotenv';
 import Axios from 'axios';
-function authRequestInterceptor(config) {
-  const token = JSON.parse(localStorage.getItem('token'));
-  if (token) {
-    config.headers.authorization = `${token}`;
-  }
-  config.headers.Accept = 'application/json';
-  return config;
-}
-const API_URL="http://localhost:8080";
+// import dotenv from 'dotenv';
+// dotenv.config();
+// import dotenv from 'dotenv-webpack';
+// dotenv.config(); 
+const API_URL=process.env.REACT_APP_BASE_URL;
+// console.log(process.env.REACT_APP_BASE_URL)
  const api = Axios.create({
   baseURL: API_URL,
 });
 
-api.interceptors.request.use(authRequestInterceptor);
 api.interceptors.response.use(
   (response) => {
     return response;
